@@ -1,5 +1,4 @@
 const express = require("express")
-//const axios = require("axios")
 const logger = require("perfect-logger") //apparently its perfect
 
 const public_router = require("./public_router")
@@ -8,7 +7,7 @@ logger.initialize('MyLog', {
     logLevelFile: 0,
     logLevelConsole: 0,
     logDirectory: "logs/",
-    customBannerHeaders: "Oh Lawg He Comin'",
+    customBannerHeaders: "Split Log",
 })
 
 const app = express()
