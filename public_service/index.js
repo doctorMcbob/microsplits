@@ -1,7 +1,7 @@
 const express = require("express")
 const logger = require("perfect-logger") //apparently its perfect
 
-const public_router = require("./public_router")
+const database_router = require("./database_router")
 
 logger.initialize('MyLog', {
     logLevelFile: 0,
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use("/", public_router)
+app.use("/", database_router)
 
 app.use((err, req, res, next) => {
     logger.crit(err)

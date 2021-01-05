@@ -12,5 +12,12 @@
     "postgres"
   ],
   "author": "Wxly",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "input-event": "^1.2.6",
+    "perfect-logger": "^2.0.1"
+  }
 }
