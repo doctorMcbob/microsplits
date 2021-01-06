@@ -59,7 +59,6 @@ sequelize.authenticate().then(() => {
 module.exports = function(fastify, opts, done) {
 
     fastify.get("/run/:run_name", async (req, res) => {
-	console.log("YAAAS?")
 	Splits.findAll({
 	    where : {
 		run : req.params.run_name
