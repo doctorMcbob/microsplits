@@ -3,7 +3,10 @@
 
   The perpose of this server is to handle database interaction
 */
-const fastify = require('fastify')({logger:true})
+const fastify = require('fastify')({
+    logger : true,
+    ignoreTrailingSlash : true,
+})
 
 fastify.register(require("./routes/splits/index"), {})
 
