@@ -8,7 +8,7 @@ const fastify = require('fastify')({
     ignoreTrailingSlash : true,
 })
 
-fastify.register(require("./routes/splits/index"), {})
+fastify.register(require("./db_router"), {})
 
 const start = async () => {
   try {

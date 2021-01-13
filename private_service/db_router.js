@@ -1,4 +1,4 @@
-const { Run } = require("../../models")
+const { Run } = require("./models")
 
 const bodySchema = {
     body: {
