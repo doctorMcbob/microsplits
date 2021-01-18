@@ -24,7 +24,11 @@ async function newRun (game_name, catagory, splits) {
 async function split (split) {
     const now = Date.now()
     const starttime = await redis.get("starttime")
-
+    const splits = await redis.hgetall("splits")
+    if (!(split in splits)) {
+	throw "invalid split"
+    }
+    
     redis.hset("splits", split, now - starttime)
     redis.set("time", now - starttime)
     return now - starttime

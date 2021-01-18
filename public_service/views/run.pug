@@ -1,0 +1,14 @@
+- var page_title = "MicroSplits"
+
+doctype html
+html(lang="en")
+  head
+    title= page_title
+
+  body
+    p #{run.game} | #{run.catagory}
+    p in #{run.time} (milliseconds)
+
+    ol
+      each time, split in run.splits
+        li= split + ": " + time

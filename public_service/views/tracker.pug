@@ -1,0 +1,27 @@
+- var page_title = "MicroSplits"
+
+doctype html
+html(lang="en")
+  head
+    title= page_title
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="/public/frontend_tracker.js")
+
+  body
+    h1 Tracker
+
+    p game
+      input(id="game" type="text")
+    p category
+      input(id="category" type="text")
+
+    p(id="timer") 0
+    ol(id="splits")
+      li
+        input(type="text")
+    button(id="addsplit") +
+    button(id="removesplit") -
+    br
+    button(id="reset") reset
+    button(id="split") split
+    button(id="start") start

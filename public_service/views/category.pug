@@ -1,0 +1,14 @@
+- var page_title = "MicroSplits"
+
+doctype html
+html(lang="en")
+  head
+    title= page_title
+
+  body
+    p List Of #{category} Runs
+
+    ul
+      for run in runs
+        li
+          a(href="/run/" + run.id) #{run.time}

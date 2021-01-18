@@ -1,0 +1,14 @@
+- var page_title = "MicroSplits"
+
+doctype html
+html(lang="en")
+  head
+    title= page_title
+
+  body
+    p List Of Categories For #{game}
+
+    ul
+      for category in categories
+        li
+          a(href="/game/" + game + "/" + category) #{category}

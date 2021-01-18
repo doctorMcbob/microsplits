@@ -1,8 +1,8 @@
-const { Run } = require("./models")
+const { sequelize, Run } = require("./models")
 
 const bodySchema = {
     body: {
-	tpye : "object",
+	type : "object",
 	required : ["game", "catagory", "splits"],
 	properties : {
 	    game : { type : "string" },
@@ -13,20 +13,13 @@ const bodySchema = {
     }
 }
 
-const runidSchema = {   
+const paramSchema = {
     params : {
 	type : "object",
 	properties : {
+	    gameName : { type : "string" },
+	    gameCategory : { type : "string" },
 	    runId : { type : "integer" }
-	}
-    }
-}
-
-const gamenameSchema = {
-    params : {
-	type : "object",
-	properties : {
-	    gameName : { type : "string" }
 	}
     }
 }
@@ -37,14 +30,14 @@ function makeSchema (param={}, model={}) {
 
 module.exports = function(fastify, opts, done) {
 
-    fastify.get("/run/:runId", makeSchema(runidSchema), async (req, res) => {
+    fastify.get("/run/:runId", makeSchema(paramSchema), async (req, res) => {
 	const run = await Run.findByPk(req.params.runId)
 
 	res.send(run)
     })
 
 
-    fastify.get("/game/:gameName", makeSchema(gamenameSchema), async (req, res) => {
+    fastify.get("/games/:gameName", makeSchema(paramSchema), async (req, res) => {
 	const runs = await Run.findAll({
 	    where : {
 		game : req.params.gameName
@@ -54,13 +47,45 @@ module.exports = function(fastify, opts, done) {
 	res.send(runs)
     })
 
+    fastify.get("/games/:gameName/categories/", async (req, res) => {
+	const [ categories ] = await sequelize.query(`SELECT DISTINCT catagory FROM "Runs" WHERE game='${req.params.gameName}';`)
+
+	const categoryList = categories.map((element, index, array) => {
+	    return element.catagory
+	})
+
+	res.send(categoryList)
+    })
+    
+    fastify.get("/runs/:gameName/:categoryName", makeSchema(paramSchema), async (req, res) => {
+	const runs = await Run.findAll({
+	    where : {
+		game : req.params.gameName,
+		catagory : req.params.categoryName
+	    }
+	})
+
+	res.send(runs)
+    })
+
+    fastify.get("/games/", async (req, res) => {
+	const [ games ] = await sequelize.query('SELECT DISTINCT game FROM "Runs";')
+
+
+	const gameList = games.map((element, index, array) => {
+	    return element.game
+	})
+
+	res.send(gameList)
+    })
+
     fastify.post("/run", makeSchema({}, bodySchema), async (req, res) => {
 	const run = await Run.create(req.body)
 	
 	res.send(run)
     })
 
-    fastify.delete("/run/:runId", makeSchema(runidSchema), async (req, res) => {
+    fastify.delete("/run/:runId", makeSchema(paramSchema), async (req, res) => {
 	const run = await Run.findByPk(req.params.runId)
 
 	await Run.destroy({
@@ -71,7 +96,7 @@ module.exports = function(fastify, opts, done) {
 	res.send(run)
     })
 
-    fastify.put("/run/:runId", makeSchema(runidSchema, {}), async (req, res) => {
+    fastify.put("/run/:runId", makeSchema(paramSchema, {}), async (req, res) => {
 	const run = await Run.findByPk(req.params.runId)
 	
 	if (!run) {
